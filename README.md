@@ -3,8 +3,8 @@
 - EC2 attributes displayed
   - Name - Display Name
   - Id - Unique Identifier
-  - Type - Size eg. t2.micro etc
-  - State - Running, terminated
+  - Type - Size eg. t2.micro etc.
+  - State - Running, terminated etc.
   - Availability Zone
   - Public IP Address
   - Private IP Address
