@@ -29,7 +29,7 @@ but doing via user credentials as i'm short on time
 - Go to 'http://localhost:5000/swagger-ui.html'
 - Try it out!
 
-## Deploy to AWS Beanstalk
+## Deploy to AWS Elastic Beanstalk
 - Must have AWS CLI setup locally
 - Beanstalk environment created already as '.elasticbeanstalk/config.yml'
 - Build a JAR file by running './gradlew clean build'
@@ -39,3 +39,16 @@ but doing via user credentials as i'm short on time
 - Application available at URL displayed in terminal eg. 'aws-ec2-describe-dev.us-west-2.elasticbeanstalk.com'
 - Go to 'http://<DOMAIN_URL>/swagger-ui.html'
 - Try it out!
+
+
+# TODO's (Not enough time, limited access to AWS free tier services)
+
+## Securing Api using API Gateway
+- Create a VPC with Private Subnet
+- Create Elastic beanstalk environment with Java and configure
+- Use Network Load Balancer and attach to VPC
+- Load balancer setting visibility 'Internal' to make service not visible to outside world
+- Select Private Subnets for Network load balancer
+- Create API Gateway
+- Create VPC Links to API Gateway
+- Select Target NLB as created in previous step
