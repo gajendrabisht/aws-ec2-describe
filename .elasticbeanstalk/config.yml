@@ -1,6 +1,8 @@
 branch-defaults:
   default:
     environment: null
+  master:
+    environment: null
 deploy:
   artifact: build/libs/aws-ec2-describe-1.0-SNAPSHOT.jar
 global:

@@ -32,6 +32,7 @@ but doing via user credentials as i'm short on time
 ## Deploy to AWS Beanstalk
 - Must have AWS CLI setup locally
 - Beanstalk environment created already as '.elasticbeanstalk/config.yml'
+- Build a JAR file by running './gradlew clean build'
 - Run on CLI 'eb create -s'
 - select environment name or leave blank
 - select cname prefix or leave blank

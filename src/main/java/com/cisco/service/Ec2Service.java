@@ -4,7 +4,6 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.ec2.AmazonEC2;
 import com.amazonaws.services.ec2.model.DescribeInstancesRequest;
 import com.amazonaws.services.ec2.model.DescribeInstancesResult;
-import com.amazonaws.services.ec2.model.Tag;
 import com.cisco.aws.Ec2ClientProvider;
 import com.cisco.domain.Ec2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,14 +42,14 @@ public class Ec2Service {
                 .getReservations()
                 .stream()
                 .flatMap(i -> i.getInstances().stream())
-                .map(i ->
-                        new Ec2(i.getTags().stream().map(Tag::getValue).collect(Collectors.joining(", ")),
-                                i.getInstanceId(),
-                                i.getInstanceType(),
-                                i.getState().getName(),
-                                i.getPlacement().getAvailabilityZone(),
-                                i.getPublicIpAddress(),
-                                i.getPrivateIpAddress()))
+                .map(i -> new Ec2(
+                        i.getKeyName(),
+                        i.getInstanceId(),
+                        i.getInstanceType(),
+                        i.getState().getName(),
+                        i.getPlacement().getAvailabilityZone(),
+                        i.getPublicIpAddress(),
+                        i.getPrivateIpAddress()))
                 .collect(Collectors.toList());
     }
 

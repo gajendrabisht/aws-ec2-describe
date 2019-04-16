@@ -48,7 +48,7 @@ public class Ec2ServiceTest {
     public void shouldReturnOneSingleInstance() {
         Regions region = Regions.US_EAST_1;
         Instance instance = new Instance()
-                .withTags(new Tag("key1", "value1"), new Tag("key2", "value2"))
+                .withKeyName("someKeyName")
                 .withInstanceId("someInstanceId")
                 .withInstanceType(T2Medium)
                 .withState(new InstanceState().withName("Running"))
@@ -61,7 +61,7 @@ public class Ec2ServiceTest {
         List<Ec2> actualInstances = ec2Service.getAllInstances(region);
 
         assertThat(actualInstances.size(), is(1));
-        assertThat("Name (made by joining tag values)", actualInstances.get(0).getName(), is("value1, value2"));
+        assertThat("Name", actualInstances.get(0).getName(), is("someKeyName"));
         assertThat("Instance Id", actualInstances.get(0).getId(), is("someInstanceId"));
         assertThat("Instance Type", actualInstances.get(0).getType(), is(T2Medium.toString()));
         assertThat("Instance State", actualInstances.get(0).getState(), is("Running"));
