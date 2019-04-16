@@ -23,16 +23,21 @@ public class PaginationServiceTest {
 
     @ParameterizedTest(name = "page:{0}, pageSize:{1}, exception:{2}")
     @CsvSource({
-            "0, 1, Page must be greater than or equal to 1",
-            "1, 0, Page Size must be greater than or equal to 1",
             "3, 1, Page number out of bounds",
             "2, 3, Page number out of bounds"
     })
-    public void shouldThrowIllegalArgumentException(int page, int pageSize, String exceptionMessage) {
+    public void shouldThrowIllegalArgumentExceptionForNonEmptyList(int page, int pageSize, String exceptionMessage) {
         List<Ec2> ec2s = asList(createEc2("ec1"), createEc2("ec2"));
         IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
                 paginationService.result(ec2s, page, pageSize));
         assertThat(thrown.getMessage(), is(exceptionMessage));
+    }
+
+    @Test
+    public void shouldThrowIllegalArgumentExceptionWhenOutOfBoundsForNoResults() {
+        IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
+                paginationService.result(EMPTY_LIST, 2, 1));
+        assertThat(thrown.getMessage(), is("Page number out of bounds"));
     }
 
     @Test

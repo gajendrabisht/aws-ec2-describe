@@ -11,11 +11,7 @@ public class PaginationService {
 
     public PaginationResult result(List<Ec2> ec2s, int page, int pageSize) {
 
-        if (page < 1)
-            throw new IllegalArgumentException("Page must be greater than or equal to 1");
-        if (pageSize < 1)
-            throw new IllegalArgumentException("Page Size must be greater than or equal to 1");
-        if (ec2s.size() > 0 && ec2s.size() <= pageSize * (page - 1))
+        if (isOutOfBoundForEmptyList(ec2s, page) || isOutOfBoundForNonEmptyList(ec2s, page, pageSize))
             throw new IllegalArgumentException("Page number out of bounds");
 
         int fromIndex = pageSize * (page - 1);
@@ -23,6 +19,14 @@ public class PaginationService {
 
         return new PaginationResult(ec2s.size(), page, pageSize, ec2s.subList(fromIndex, toIndex));
 
+    }
+
+    private boolean isOutOfBoundForNonEmptyList(List<Ec2> ec2s, int page, int pageSize) {
+        return !ec2s.isEmpty() && ec2s.size() <= pageSize * (page - 1);
+    }
+
+    private boolean isOutOfBoundForEmptyList(List<Ec2> ec2s, int page) {
+        return ec2s.isEmpty() && page > 1;
     }
 
 }

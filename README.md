@@ -14,7 +14,8 @@
 
 ## Testing
 - run command './gradlew clean test'
-- test report can be found on '.../aws-ec2-describe/build/reports/tests/test/index.html'
+- TDD, test report can be found on '.../aws-ec2-describe/build/reports/tests/test/index.html'
+- BDD, Cucumber, report can be found on '.../aws-ec2-describe/cucumber-report/index.html'
 
 ## Run Locally (with aws access)
 NOTE: Ideally access to applications should be controlled by custom access policies
@@ -48,7 +49,14 @@ but doing via user credentials as i'm short on time
 - Create Elastic beanstalk environment with Java and configure
 - Use Network Load Balancer and attach to VPC
 - Load balancer setting visibility 'Internal' to make service not visible to outside world
-- Select Private Subnets for Network load balancer
+- Select Private Subnet for Network load balancer
 - Create API Gateway
 - Create VPC Links to API Gateway
-- Select Target NLB as created in previous step
+- Select Target Network Load Balancer created in previous step
+- Access through API url 
+
+## Controlling access through API Gateway by one or more strategies 
+- API Resource policies
+- Lambda Authorizers - eg. JWT (Json Web Token)
+- Amazon Cognito User Pools Authorizer
+- API Keys for rate limiting and monitoring usage per customer

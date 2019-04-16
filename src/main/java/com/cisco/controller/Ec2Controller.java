@@ -8,10 +8,14 @@ import com.cisco.domain.PaginationResult;
 import com.cisco.service.Ec2Service;
 import com.cisco.service.PaginationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -23,6 +27,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 @RequestMapping(path = "/ec2s", produces = APPLICATION_JSON)
+@Validated
 public class Ec2Controller {
 
     @Autowired
@@ -35,8 +40,8 @@ public class Ec2Controller {
     public PaginationResult getAll(@RequestParam(required = false, defaultValue = "us-east-1") String region,
                                    @RequestParam(required = false, defaultValue = "state") String sortBy,
                                    @RequestParam(required = false, defaultValue = "ascending") Order order,
-                                   @RequestParam(required = false, defaultValue = "1") Integer page,
-                                   @RequestParam(required = false, defaultValue = "10") Integer pageSize) {
+                                   @RequestParam(required = false, defaultValue = "1") @Valid @Min(1) @Max(1000) Integer page,
+                                   @RequestParam(required = false, defaultValue = "10") @Valid @Min(1) @Max(100) Integer pageSize) {
 
         List<Ec2> ec2s = ec2Service.getAllInstances(resolveRegion(region));
 
