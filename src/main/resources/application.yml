@@ -1,0 +1,6 @@
+aws:
+  accessKey: <PLACEHOLDER_ACCESS_KEY>
+  secretKey: <PLACEHOLDER_SECRET_KEY>
+
+server:
+  port: 5000

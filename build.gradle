@@ -1,0 +1,80 @@
+buildscript {
+    ext {
+        springBootVersion = '2.1.4.RELEASE'
+        awsVersion = '1.11.534'
+        swaggerVersion = '2.9.2'
+        cucumberVersion = '4.3.0'
+        junitVersion = '5.3.2'
+        mockitoVersion = '2.27.0'
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'idea'
+
+group = 'com.cisco'
+version = '1.0-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+test {
+    useJUnitPlatform()
+}
+
+configurations {
+    cucumberRuntime {
+        extendsFrom testRuntime
+    }
+}
+
+task cucumber() {
+    dependsOn assemble, compileTestJava
+    doLast {
+        javaexec {
+            main = "cucumber.api.cli.Main"
+            classpath = configurations.cucumberRuntime + sourceSets.main.output + sourceSets.test.output
+            args = ['--plugin', 'pretty', '--format', 'html:cucumber-report', '--glue', 'cucumber.steps', 'src/test/resources/features']
+        }
+    }
+}
+
+dependencies {
+    // Spring Boot
+    compile("org.springframework.boot:spring-boot-starter:$springBootVersion")
+    compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
+    // Aws sdk
+    compile group: 'com.amazonaws', name: 'aws-java-sdk', version: awsVersion
+    // Swagger
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: swaggerVersion
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: swaggerVersion
+
+
+    // Test
+    testCompile("org.springframework.boot:spring-boot-starter-test:$springBootVersion") {
+        exclude module: 'junit'
+    }
+    // Cucumber
+    testCompile group: 'io.cucumber', name: 'cucumber-junit', version: cucumberVersion
+    testCompile group: 'io.cucumber', name: 'cucumber-java8', version: cucumberVersion
+    testCompile group: 'io.cucumber', name: 'cucumber-spring', version: cucumberVersion
+    // Junit 5
+    testImplementation("org.junit.jupiter:junit-jupiter-api:$junitVersion")
+    testRuntime("org.junit.jupiter:junit-jupiter-engine:$junitVersion")
+    testImplementation("org.junit.jupiter:junit-jupiter-params:$junitVersion")
+    testCompile("org.mockito:mockito-core:$mockitoVersion")
+    testCompile("org.mockito:mockito-junit-jupiter:$mockitoVersion")
+}
+
+

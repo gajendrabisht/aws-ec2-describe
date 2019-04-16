@@ -1,0 +1,19 @@
+branch-defaults:
+  default:
+    environment: null
+deploy:
+  artifact: build/libs/aws-ec2-describe-1.0-SNAPSHOT.jar
+global:
+  application_name: aws-ec2-describe
+  branch: null
+  default_ec2_keyname: aws-ec2-describe
+  default_platform: Java 8
+  default_region: us-west-2
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: null
+  sc: null
+  workspace_type: Application
